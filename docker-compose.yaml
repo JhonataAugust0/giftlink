@@ -1,0 +1,42 @@
+services:
+  giftlink:
+    container_name: gift-link-container
+    hostname: gift-link-container
+    build:
+      context: .
+    env_file: .env
+    networks:
+      - giftLink
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/app:rw
+    sysctls:
+      - net.ipv4.tcp_keepalive_time=200
+
+  postgres:
+    image: postgres:16.2-alpine3.19
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    env_file: .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U example -d example -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - 'db:/var/lib/postgresql/data'        
+    networks:
+      - giftLink
+
+networks:
+  giftLink:
+    driver: bridge
+
+volumes:
+  db:

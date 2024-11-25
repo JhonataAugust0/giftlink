@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "giftlink"
+version = "0.1.0"
+description = ""
+authors = ["JhonataAugust0 <jhon.augustosilva@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-cov = "^6.0.0"
+fastapi = "^0.115.5"
+pydantic = "^2.9.2"
+blue = "^0.9.1"
+isort = "^5.13.2"
+taskipy = "^1.14.0"
+python-dotenv = "^1.0.1"
+mkdocs-material = "^9.5.44"
+mkdocstrings = "^0.27.0"
+mkdocstrings-python = "^1.12.2"
+uvicorn = "^0.32.0"
+tortoise-orm = {extras = ["asyncpg"], version = "^0.22.0"}
+aerich = "^0.7.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini.options]
+pythonpath = "./mvp_scrapping"
+addopts = "--doctest-modules"
+
+[tool.blue]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 108
+
+[tool.taskipy.tasks]
+lint = "blue --check --diff . && isort --check --diff ."
+docs = "mkdocs serve"
+pre_test = "task lint"
+test = "pytest -s -x --cov=mvp_scrapping -vv"
+post_test = "coverage html"
+
+[tool.aerich]
+tortoise_orm = "app.adapters.data.orm.config.db_config.DATABASE_CONFIG"
+location = "./migrations"
+src_folder = "./."

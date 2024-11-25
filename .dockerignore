@@ -1,0 +1,50 @@
+# Ignore arquivos e pastas desnecessários
+__pycache__/
+*.py[cod]
+*.log
+*.sqlite3
+*.db
+
+# Ignore arquivos de configuração de ambiente local
+.env
+*.env.*
+
+# Ignore arquivos e pastas de IDEs
+.vscode/
+.idea/
+*.swp
+
+# Ignore logs, relatórios de cobertura e arquivos de teste
+logs/
+*.out
+coverage/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+*.cover
+*.py,cover
+*.pytest_cache/
+.pytest_cache/
+*.hypothesis/
+
+# Ignore dependências locais e binários
+*.egg-info/
+.eggs/
+*.egg
+dist/
+build/
+*.whl
+
+# Ignore arquivos gerados pelo Docker
+Dockerfile~
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# Ignore arquivos de migração criados localmente
+migrations/
+aerich.log
+
+# Ignore arquivos ou pastas específicas do sistema operacional
+.DS_Store
+Thumbs.db
