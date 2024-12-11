@@ -5,6 +5,10 @@ from ..models.group import Group
 
 class GroupRepository(ABC):
     @abstractmethod
+    async def make_select(self, id: int) -> Group:
+        pass
+
+    @abstractmethod
     async def create(self, group: Group) -> Group:
         pass
 

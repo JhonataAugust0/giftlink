@@ -182,3 +182,4 @@ pyrightconfig.json
 .vscode/*.*
 *.csv
 *.json
+alembic.ini

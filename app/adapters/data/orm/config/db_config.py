@@ -1,44 +1,51 @@
 import os 
-import asyncio
-from tortoise import Tortoise
 from dotenv import load_dotenv
-from tortoise import Tortoise
+from .base import Base
+from typing import AsyncGenerator
+from sqlalchemy.ext.asyncio import (
+  AsyncSession, 
+  async_sessionmaker, 
+  create_async_engine
+)
 
 
 load_dotenv()
-
 POSTGRES_URL=os.environ.get('POSTGRES_URL')
-TORTOISE_MODELS_PATH=os.environ.get('TORTOISE_MODELS_PATH')
 
 
-DATABASE_CONFIG = {
-    "connections": {
-        "default": POSTGRES_URL
-    },
-    "apps": {
-        "models": {
-            "models": [TORTOISE_MODELS_PATH, "aerich.models"],
-            "default_connection": "default",
-        },
-    },
-}
+engine = create_async_engine(
+    POSTGRES_URL, 
+    echo=True,
+    future=True,
+    pool_pre_ping=True,
+    pool_recycle=3600,
+    pool_size=10,
+    max_overflow=20
+)
 
-async def init_db():
-    await Tortoise.init(
-        db_url=POSTGRES_URL,
-        modules={
-            "models": [
-                TORTOISE_MODELS_PATH,
-                "aerich.models"
-            ]
-        }
-    )
-
-async def migrate_db():
-    await init_db()
-    await Tortoise.generate_schemas(safe=True)
+# Session factory
+async_session = async_sessionmaker(
+    engine, 
+    expire_on_commit=False,
+    autocommit=False,
+    autoflush=False,
+    class_=AsyncSession
+)
 
 
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(migrate_db()) 
+async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session() as session:
+        try:
+            yield session
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise
+        finally:
+            await session.close()
+
+
+async def create_database():
+    """Criar todas as tabelas definidas nos modelos"""
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)

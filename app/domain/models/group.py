@@ -5,6 +5,7 @@ class Group:
     name:         str
     max_value:    float
     draw_status:  bool = False
+    id:           int | None = None
 
     def activate_draw(self):
         if self.draw_status:

@@ -1,8 +1,9 @@
-from typing import Dict, List
-from fastapi import APIRouter, Depends
+import http
+from typing import Any, Dict, List
+from fastapi import APIRouter, Depends, HTTPException
 from .....domain.use_cases.group_use_case import GroupUseCase
 from ..dtos.group_dto import GroupRequestDTO, GroupResponseDTO
-from .....adapters.data.orm.tortoise_repositories.group_repository_orm import GrupoRepositoryORM
+from .....adapters.data.orm.repositories.group_repository_orm import GrupoRepositoryORM
 
 
 class groupRouter:
@@ -26,24 +27,32 @@ class groupRouter:
             groups = await use_case.list_groups()
             return [GroupResponseDTO.from_core(group) for group in groups]
       
-      # @router.get("/group/show", response_model=GroupResponseDTO)
-      # async def show_group(
-      #       id: int, 
-      #       use_case: GroupUseCase = Depends()
-      #       ) -> Dict[str, str]:
-      #       group = await use_case.show_group(id)
-      #       return {"id": group.id, "nome": group.name, "valor_maximo": group.max_value, "status_sorteio": group.draw_status}
+      @router.get("/group/show", response_model=GroupResponseDTO, responses={
+            404: {"description": "Group not found"},
+            401: {"description": "Unauthorized"},
+      })
+      async def show_group(id: int, use_case: GroupUseCase = Depends(get_group_repository)):
+            group = await use_case.show_group(id)
+            if group is None:
+                  raise HTTPException(status_code=404, detail="Group not found")
+            return GroupResponseDTO.from_core(group)
 
-      # @router.patch("/group/edit", response_model=GroupResponseDTO)
-      # async def edit_group(
-      #       group_id: int,
-      #       params: GroupRequestDTO, 
-      #       use_case: GroupUseCase = Depends()
-      #       ) -> Dict[str, str]:
-      #       group = await use_case.edit_group(group_id, params.name, params.max_value)
-      #       return {"id": group.id, "nome": group.name, "valor_maximo": group.max_value}
+      
+      @router.put("/group/update", response_model=GroupResponseDTO)
+      async def edit_group(
+            group_id: int,
+            params: GroupRequestDTO, 
+            use_case: GroupUseCase = Depends(get_group_repository)
+            ):
+            group = await use_case.edit_group(group_id, params.name, params.max_value)
+            return GroupResponseDTO.from_core(group)
 
-      # @router.delete("/group/remove")
-      # async def remove_group(id: int, use_case: GroupUseCase = Depends()) -> Dict[str,str]:
-      #       # use_case.remove_group(id)
-      #       pass
+      @router.delete("/group/remove", responses={
+            404: {"description": "Group with id {id} does not exist"},
+            401: {"description": "Unauthorized"},
+      })
+      async def remove_group(id: int, use_case: GroupUseCase = Depends(get_group_repository)):
+            response = await use_case.remove_group(id)
+            if response is None:
+                  raise HTTPException(status_code=404, detail=f"with id {id} does not exist")
+            return http.HTTPStatus.NO_CONTENT

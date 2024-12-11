@@ -19,7 +19,7 @@ class GroupUseCase:
         return await self.group_repository.get_by_id(group_id)
 
     async def remove_group(self, group_id: int) -> None:
-        await self.group_repository.delete(group_id)
+        return await self.group_repository.delete(group_id)
 
     async def edit_group(self, group_id: int, group_name: str, max_value: float) -> Group:
         group = await self.group_repository.get_by_id(group_id)
