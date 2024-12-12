@@ -48,3 +48,5 @@ aerich.log
 # Ignore arquivos ou pastas específicas do sistema operacional
 .DS_Store
 Thumbs.db
+
+log/

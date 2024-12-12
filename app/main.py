@@ -1,9 +1,11 @@
 import uvicorn
-import logging
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from fastapi.middleware.cors import CORSMiddleware
+
+# Log tool
+from app.adapters.log.audit_logger import AuditLogger
 
 # SQLAlchemy imports
 from app.adapters.data.orm.config.db_config import engine
@@ -15,25 +17,27 @@ from app.adapters.api.v1.routes.group_route import groupRouter
 from app.adapters.data.orm.config.base import Base
 from app.adapters.data.orm.config.db_config import POSTGRES_URL
 
-load_dotenv()
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+load_dotenv()
+audit_logger = AuditLogger()
+
 
 # app lifecycle 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
-        logger.info("Iniciando conexão com o banco de dados...")
+        audit_logger.log_info("Iniciando conexão com o banco de dados...", "lifespan")
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-            logger.info("Tabelas criadas com sucesso!")
+            audit_logger.log_info("Tabelas criadas com sucesso!", "lifespan")
         yield
-    except Exception as e:
-        logger.error(f"Erro na inicialização do banco de dados: {e}")
+    
+    except Exception as error:
+        audit_logger.log_error(f"Erro na inicialização do banco de dados: Erro: {str(error)}", "lifespan")
         raise
+    
     finally:
-        logger.info("Finalizando conexão com o banco de dados...")
+        audit_logger.log_info("Finalizando conexão com o banco de dados...", "lifespan")
         await engine.dispose()
     
 
