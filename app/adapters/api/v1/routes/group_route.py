@@ -2,15 +2,15 @@ import http
 from typing import Any, Dict, List
 from fastapi import APIRouter, Depends, HTTPException
 from .....domain.use_cases.group_use_case import GroupUseCase
-from ..dtos.group_dto import GroupRequestDTO, GroupResponseDTO
-from .....adapters.data.orm.repositories.group_repository_orm import GrupoRepositoryORM
+from ..dtos.group_dto import GroupRequestDTO, GroupResponseDTO, GroupWithParticipantsResponseDTO
+from .....adapters.data.orm.repositories.group_repository_orm import GroupRepositoryORM
 
 
 class groupRouter:
       router = APIRouter()
 
       async def get_group_repository() -> GroupUseCase:
-            repository = await GrupoRepositoryORM().create_instance()
+            repository = await GroupRepositoryORM().create_instance()
             return GroupUseCase(repository)
 
 
@@ -25,9 +25,10 @@ class groupRouter:
       @router.get("/groups/list", response_model=List[GroupResponseDTO])
       async def get_all_groups(use_case: GroupUseCase = Depends(get_group_repository)):
             groups = await use_case.list_groups()
+            print(groups)
             return [GroupResponseDTO.from_core(group) for group in groups]
       
-      @router.get("/group/show", response_model=GroupResponseDTO, responses={
+      @router.get("/group/show", response_model=GroupWithParticipantsResponseDTO, responses={
             404: {"description": "Group not found"},
             401: {"description": "Unauthorized"},
       })
@@ -35,7 +36,7 @@ class groupRouter:
             group = await use_case.show_group(id)
             if group is None:
                   raise HTTPException(status_code=404, detail="Group not found")
-            return GroupResponseDTO.from_core(group)
+            return GroupWithParticipantsResponseDTO.from_core(group)
 
       
       @router.put("/group/update", response_model=GroupResponseDTO)

@@ -100,7 +100,7 @@ class AuditLogger:
         
         return logger
 
-    def log_info(self, message: str, function_name: str, id: Optional[str | int] = None, params: Optional[list] = None):
+    def log_info(self, message: str, function_name: str, id: Optional[str | int] = None, params: Optional[dict] = None):
       """
       Log an informational message.
 
@@ -122,7 +122,7 @@ class AuditLogger:
 
       self._logger.info(log_message)
     
-    def log_warning(self, message: str, function_name: str, id: Optional[str | int] = None, params: Optional[list] = None):
+    def log_warning(self, message: str, function_name: str, id: Optional[str | int] = None, params: Optional[dict] = None):
         """
         Log a warning message.
         
@@ -142,7 +142,7 @@ class AuditLogger:
             log_message += f" [Params: {params_str}]"
         self._logger.warning(log_message)
 
-    def log_error(self, message: str, function_name: str, error: str, id: Optional[str | int] = None, params: Optional[list] = None):
+    def log_error(self, message: str, function_name: str, error: str, id: Optional[str | int] = None, params: Optional[dict] = None):
         """
         Log an error message.
         

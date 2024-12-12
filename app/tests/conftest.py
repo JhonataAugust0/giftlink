@@ -1,6 +1,7 @@
 import os
 import sys
 import pytest
+import logging
 from dotenv import load_dotenv
 
 sys.path.insert(

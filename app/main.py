@@ -12,6 +12,7 @@ from app.adapters.data.orm.config.db_config import engine
 
 # routes
 from app.adapters.api.v1.routes.group_route import groupRouter
+from app.adapters.api.v1.routes.people_route import peopleRouter
 
 # config imports database
 from app.adapters.data.orm.config.base import Base
@@ -57,7 +58,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(groupRouter.router)
+app.include_router(groupRouter.router, tags=["Groups"])
+app.include_router(peopleRouter.router, tags=["People"])
 
 
 if __name__ == "__main__":

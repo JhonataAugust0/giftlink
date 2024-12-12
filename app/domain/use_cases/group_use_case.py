@@ -9,7 +9,6 @@ class GroupUseCase:
 
     async def create(self, group_name: str, max_value: float) -> Group:
         new_group = Group(name=group_name, max_value=max_value)
-        print(new_group)
         return await self.group_repository.create(new_group)
 
     async def list_groups(self) -> List[Group]:
