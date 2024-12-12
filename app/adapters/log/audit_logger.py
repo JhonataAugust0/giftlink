@@ -17,7 +17,7 @@ class AuditLogger:
     _logger = None
 
     def __new__(cls, 
-                log_dir: str = './log/', 
+                log_dir: str = './logs/', 
                 log_file: str = 'audit.log', 
                 max_log_size: int = 10 * 1024 * 1024,  # 10 MB default
                 backup_count: int = 5):

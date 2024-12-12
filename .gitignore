@@ -183,3 +183,4 @@ pyrightconfig.json
 *.csv
 *.json
 alembic.ini
+./logs/
