@@ -47,7 +47,7 @@ line_length = 108
 
 [tool.taskipy.tasks]
 lint = "blue --check --diff . && isort --check --diff ."
-docs = "mkdocs serve"
+docs = "mkdocs serve --dev-addr localhost:9999"
 
 test = "pytest -s -x --cov=app/tests/ -vv"
 post_test = "coverage html"
