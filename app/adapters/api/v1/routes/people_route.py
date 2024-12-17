@@ -43,7 +43,7 @@ class peopleRouter:
             use_case: PeopleUseCase = Depends(get_people_repository)
             ):
             people_data = params.to_core()
-            people = await use_case.edit_people(people_id, people_data.name, people_data.grupo_id, people_data.sugestao_presente)
+            people = await use_case.edit_people(people_id, people_data.name, people_data.group_id, people_data.sugestao_presente)
             return PeopleResponseDTO.from_core(people)
 
       @router.delete("/people/remove", responses={

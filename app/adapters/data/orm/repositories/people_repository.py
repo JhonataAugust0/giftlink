@@ -21,8 +21,8 @@ class PeopleRepositoryORM(PeopleRepository):
 
     @classmethod
     async def create_instance(cls):
-        session = await get_async_session().__anext__()
-        return cls(session)
+        async with get_async_session() as session:
+            return cls(session)
             
     async def make_select(self, id: int) -> Pessoa:
         """
@@ -84,18 +84,17 @@ class PeopleRepositoryORM(PeopleRepository):
 
     async def update_people(self, people: People) -> Pessoa:
         people_instance = await self.make_select(people.id)
-
         await self.session.execute(
         update_orm(Pessoa)
-        .where(Pessoa.id == people_instance.id)
-        .values(
-            nome=people.name,
-            grupo_id=people.grupo_id,
-            sugestao_presente=people.sugestao_presente,
-        ))
+            .where(Pessoa.id == people_instance.id)
+            .values(
+                nome=people.name,
+                grupo_id=people.group_id,
+                sugestao_presente=people.sugestao_presente,
+            ))
 
         await self.session.commit()
-        updated_group = await self.session.get(Pessoa, people_instance.id)
+        updated_group = await self.make_select(people_instance.id)
         return updated_group
 
     async def remove_people_from_group(self, people_id: int) -> None:

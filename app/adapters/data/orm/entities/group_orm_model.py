@@ -17,7 +17,7 @@ class Grupos(Base):
     )
 
     def __repr__(self):
-        return f"<Grupo(id={self.id}, nome='{self.nome}')>"
+        return f"<Grupo(id={self.id}, nome='{self.nome}', valor_maximo='{self.valor_maximo}', status_sorteio='{self.status_sorteio}')>"
 
 
 class Pessoa(Base):
@@ -27,11 +27,11 @@ class Pessoa(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100))
     codigo: Mapped[int] = mapped_column(Integer, unique=True)
-    sugestao_presente: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    sugestao_presente: Mapped[str] = mapped_column(Text, nullable=True)
 
     # Relacionamento com Grupo
     grupo_id: Mapped[int] = mapped_column(ForeignKey("grupos.id", ondelete="CASCADE"))
     grupo: Mapped["Grupos"] = relationship("Grupos", back_populates="pessoas")
 
     def __repr__(self):
-        return f"<Pessoa(id={self.id}, nome='{self.nome}', codigo={self.codigo})>"
+        return f"<Pessoa(id={self.id}, nome='{self.nome}', codigo='{self.codigo}', sugestao_presente='{self.sugestao_presente}', grupo_id={self.grupo_id})>"

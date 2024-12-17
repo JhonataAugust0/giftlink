@@ -32,37 +32,6 @@ class GroupResponseDTO(BaseModel):
             status_sorteio=group.status_sorteio,
         )
 
-class GroupWithParticipantsResponseDTO(BaseModel):
-    id: int
-    nome: str
-    valor_maximo: float
-    status_sorteio: bool
-    participantes: List[dict]  # Lista de dicionários com os dados dos participantes
-
-    @staticmethod
-    def from_core(data):
-        group = data[0][0]  
-        participants = [p[1] for p in data]  
-        if participants:
-            return GroupWithParticipantsResponseDTO(
-                id=group.id,
-                nome=group.nome,
-                valor_maximo=group.valor_maximo,
-                status_sorteio=group.status_sorteio,
-                participantes=[{
-                    'id': p.id,
-                    'nome': p.nome,
-                    'codigo': p.codigo,
-                    'sugestao_presente': p.sugestao_presente,
-                } for p in participants]
-            )
-        
-        return GroupWithParticipantsResponseDTO(
-                id=group.id,
-                nome=group.nome,
-                valor_maximo=group.valor_maximo,
-                status_sorteio=group.status_sorteio,
-            )
 
 class GroupRequestDTO(BaseModel):
     name: str = Field(..., max_length=100, description="Nome do grupo")
