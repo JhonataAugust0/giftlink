@@ -9,21 +9,21 @@ class GroupRepository(ABC):
         pass
 
     @abstractmethod
-    async def create(self, group: Group) -> Group:
+    async def create_group(self, group: Group) -> Group:
         pass
 
     @abstractmethod
-    async def get_all(self) -> List[Group]:
+    async def get_all_groups(self) -> List[Group]:
         pass
 
     @abstractmethod
-    async def get_by_id(self, group_id: int) -> Group:
+    async def get_group_by_id(self, group_id: int) -> Group:
         pass
 
     @abstractmethod
-    async def delete(self, group_id: int) -> None:
+    async def delete_group(self, group_id: int) -> None:
         pass
 
     @abstractmethod
-    async def update(self, group: Group) -> Group:
+    async def update_group(self, group: Group) -> Group:
         pass

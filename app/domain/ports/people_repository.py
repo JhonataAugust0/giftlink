@@ -4,6 +4,8 @@ from ..models.people import People
 
 
 class PeopleRepository(ABC):
+    """Classe abstrata que define as operações do repositório."""
+
     @abstractmethod
     async def make_select(self, id: int) -> People:
         pass
@@ -17,13 +19,13 @@ class PeopleRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_people_by_id(self, group_id: int) -> People:
+    async def get_people_by_id(self, people_id: int) -> People:
         pass
 
     @abstractmethod
-    async def remove_people_from_group(self, people_id) -> None:
+    async def remove_people_from_group(self, people_id: int) -> None:
         pass
-    
+
     @abstractmethod
-    async def update_people(self, group: People) -> People:
+    async def update_people(self, people: People) -> People:
         pass

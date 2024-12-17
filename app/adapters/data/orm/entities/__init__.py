@@ -1,1 +1,1 @@
-from .group_orm_model import *
+from .orm_entities import *

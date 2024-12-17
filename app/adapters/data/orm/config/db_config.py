@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
 import os 
 from dotenv import load_dotenv
+
+from app.adapters.log.audit_logger import AuditLogger
 from .base import Base
 from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import (
@@ -12,7 +14,7 @@ from sqlalchemy.ext.asyncio import (
 
 load_dotenv()
 POSTGRES_URL=os.environ.get('POSTGRES_URL')
-
+audit_logger = AuditLogger()
 
 engine = create_async_engine(
     POSTGRES_URL, 
@@ -38,8 +40,9 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session() as session:
         try:
             yield session
-        except Exception:
+        except Exception as error:
             await session.rollback()
+            audit_logger.log_error("Erro ao realizar operação no banco de dados", "get_async_session", str(error))
             raise
         finally:
             await session.close()

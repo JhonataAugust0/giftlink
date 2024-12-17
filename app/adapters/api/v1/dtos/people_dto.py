@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from ....data.orm.entities.group_orm_model import Pessoa
+from ....data.orm.entities.orm_entities import Pessoa
 from .....domain.models.people import People
 
 class PeopleResponseDTO(BaseModel):

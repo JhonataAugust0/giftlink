@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from app.adapters.api.v1.dtos.people_dto import PeopleResponseDTO
 from app.domain.models.people import People
 
-from ....data.orm.entities.group_orm_model import Grupos
+from ....data.orm.entities.orm_entities import Grupos
 from .....domain.models.group import Group
 
 class GroupResponseDTO(BaseModel):
@@ -49,4 +49,47 @@ class GroupRequestDTO(BaseModel):
         return Group(
             name=self.name,
             max_value=self.max_value,
+        )
+
+class GroupResponseDrawDTO(BaseModel):
+    
+    class DrawResultDTO(BaseModel):
+        participante: str
+        sorteado_para: str
+
+    nome: str
+    valor_maximo: float
+    status_sorteio: bool
+    status: str
+    mensagem: str
+    resultados: List[DrawResultDTO]
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "nome": "Amigos do Trabalho",
+                "valor_maximo": 50.0,
+                "status_sorteio": True,
+                "status": "success",
+                "mensagem": "Sorteio realizado com sucesso.",
+                "resultados": [
+                    {"participante": "João", "sorteado_para": "Maria"},
+                    {"participante": "Maria", "sorteado_para": "Carlos"},
+                    {"participante": "Carlos", "sorteado_para": "Ana"},
+                    {"participante": "Ana", "sorteado_para": "João"}
+                ]
+            }
+        }
+    
+    @staticmethod
+    def from_core(group, resultados):
+        """Método para criar o DTO a partir do modelo do banco de dados (core) e resultados."""
+        return GroupResponseDrawDTO(
+            id=group.id,
+            nome=group.nome,
+            valor_maximo=group.valor_maximo,
+            status_sorteio=group.status_sorteio,
+            status="success",
+            mensagem="Sorteio realizado com sucesso.",
+            resultados=[{"participante": r['participante'], "sorteado_para": r['sorteado_para']} for r in resultados]
         )

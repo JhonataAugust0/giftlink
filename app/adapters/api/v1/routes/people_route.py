@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.adapters.log.audit_logger import AuditLogger
 from .....domain.use_cases.people_use_case import PeopleUseCase
 from ..dtos.people_dto import PeopleRequestDTO, PeopleResponseDTO
-from .....adapters.data.orm.repositories.people_repository import PeopleRepositoryORM
+from ....data.orm.repositories.people_repository_orm import PeopleRepositoryORM
 
 
 class peopleRouter:

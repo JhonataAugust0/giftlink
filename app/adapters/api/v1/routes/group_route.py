@@ -2,7 +2,7 @@ import http
 from typing import Any, Dict, List
 from fastapi import APIRouter, Depends, HTTPException
 from .....domain.use_cases.group_use_case import GroupUseCase
-from ..dtos.group_dto import GroupRequestDTO, GroupResponseDTO
+from ..dtos.group_dto import GroupRequestDTO, GroupResponseDTO, GroupResponseDrawDTO
 from .....adapters.data.orm.repositories.group_repository_orm import GroupRepositoryORM
 
 
@@ -22,7 +22,7 @@ class groupRouter:
             created_group = await use_case.create(group.name, group.max_value)
             return GroupResponseDTO.from_core(created_group)
       
-      @router.post("/groups/{group_id}/draw", response_model=GroupResponseDTO)
+      @router.post("/groups/{group_id}/draw", response_model=GroupResponseDrawDTO)
       async def group_draw(
             group_id: int, use_case: GroupUseCase = Depends(get_group_repository)
             ):

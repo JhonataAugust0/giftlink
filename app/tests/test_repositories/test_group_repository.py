@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 from app.adapters.data.orm.repositories.group_repository_orm import GroupRepositoryORM
 from app.domain.models.group import Group
-from app.adapters.data.orm.entities.group_orm_model import Grupos
+from adapters.data.orm.entities.orm_entities import Grupos
 
 @pytest.fixture
 def mock_session():
