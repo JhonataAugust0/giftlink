@@ -9,6 +9,7 @@ class PeopleResponseDTO(BaseModel):
     codigo:             int 
     group_id:           int 
     sugestao_presente:  str 
+    sorteio_id:         int | None
 
     class Config:
         json_schema_extra = {
@@ -29,6 +30,7 @@ class PeopleResponseDTO(BaseModel):
             codigo=people.codigo,
             group_id=people.grupo_id,
             sugestao_presente=people.sugestao_presente,
+            sorteio_id=people.sorteio_id
         )
 
 

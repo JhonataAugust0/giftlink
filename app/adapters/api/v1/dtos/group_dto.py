@@ -12,6 +12,7 @@ class GroupResponseDTO(BaseModel):
     nome:           str
     valor_maximo:   float
     status_sorteio: bool
+    sorteio_id:     int | None
 
     class Config:
         json_schema_extra = {
@@ -30,6 +31,7 @@ class GroupResponseDTO(BaseModel):
             nome=group.nome,
             valor_maximo=group.valor_maximo,
             status_sorteio=group.status_sorteio,
+            sorteio_id=group.sorteio_id
         )
 
 

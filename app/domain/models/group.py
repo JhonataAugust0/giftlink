@@ -1,11 +1,12 @@
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class Group:
     name:         str
     max_value:    float
     draw_status:  bool = False
-    id:           int | None = None
+    id:           Optional[int] = None
 
     def activate_draw(self):
         if self.draw_status:

@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from random import randint
+from typing import Optional
 
 @dataclass
 class People:
     name:               str
     sugestao_presente:  str
-    id:                 int | None = None
-    codigo:             int | None = None
-    group_id:           int | None = None
+    id:                 Optional[int] = None
+    codigo:             Optional[int] = None
+    group_id:           Optional[int] = None

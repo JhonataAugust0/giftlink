@@ -34,7 +34,7 @@ async def lifespan(app: FastAPI):
         yield
     
     except Exception as error:
-        audit_logger.log_error(f"Erro na inicialização do banco de dados: Erro: {str(error)}", "lifespan")
+        audit_logger.log_error(f"Erro na inicialização do banco de dados", "lifespan", {str(error)})
         raise
     
     finally:
