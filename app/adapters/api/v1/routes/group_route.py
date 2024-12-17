@@ -14,7 +14,7 @@ class groupRouter:
             return GroupUseCase(repository)
 
 
-      @router.post("/group/create", response_model=GroupResponseDTO)
+      @router.post("/groups", response_model=GroupResponseDTO)
       async def create_group(
             params: GroupRequestDTO, use_case: GroupUseCase = Depends(get_group_repository)
             ):
@@ -22,23 +22,29 @@ class groupRouter:
             created_group = await use_case.create(group.name, group.max_value)
             return GroupResponseDTO.from_core(created_group)
       
-      @router.get("/groups/list", response_model=List[GroupResponseDTO])
+      @router.post("/groups/{group_id}/draw", response_model=GroupResponseDTO)
+      async def group_draw(
+            group_id: int, use_case: GroupUseCase = Depends(get_group_repository)
+            ):
+            pass
+      
+      @router.get("/groups", response_model=List[GroupResponseDTO])
       async def get_all_groups(use_case: GroupUseCase = Depends(get_group_repository)):
             groups = await use_case.list_groups()
             return [GroupResponseDTO.from_core(group) for group in groups]
       
-      @router.get("/group/show", response_model=GroupResponseDTO, responses={
+      @router.get("/groups/{group_id}", response_model=GroupResponseDTO, responses={
             404: {"description": "Group not found"},
             401: {"description": "Unauthorized"},
       })
-      async def show_group(id: int, use_case: GroupUseCase = Depends(get_group_repository)):
-            group = await use_case.show_group(id)
+      async def show_group(group_id: int, use_case: GroupUseCase = Depends(get_group_repository)):
+            group = await use_case.show_group(group_id)
             if group is None:
                   raise HTTPException(status_code=404, detail="Group not found")
             return GroupResponseDTO.from_core(group)
 
       
-      @router.put("/group/update", response_model=GroupResponseDTO)
+      @router.put("/groups/{group_id}", response_model=GroupResponseDTO)
       async def edit_group(
             group_id: int,
             params: GroupRequestDTO, 
@@ -47,12 +53,12 @@ class groupRouter:
             group = await use_case.edit_group(group_id, params.name, params.max_value)
             return GroupResponseDTO.from_core(group)
 
-      @router.delete("/group/remove", responses={
+      @router.delete("/groups/{group_id}", responses={
             404: {"description": "Group with id {id} does not exist"},
             401: {"description": "Unauthorized"},
       })
-      async def remove_group(id: int, use_case: GroupUseCase = Depends(get_group_repository)):
-            response = await use_case.remove_group(id)
+      async def remove_group(group_id: int, use_case: GroupUseCase = Depends(get_group_repository)):
+            response = await use_case.remove_group(group_id)
             if response is None:
-                  raise HTTPException(status_code=404, detail=f"with id {id} does not exist")
+                  raise HTTPException(status_code=404, detail=f"with group_id {group_id} does not exist")
             return http.HTTPStatus.NO_CONTENT

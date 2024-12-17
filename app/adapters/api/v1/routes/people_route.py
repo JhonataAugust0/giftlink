@@ -16,7 +16,7 @@ class peopleRouter:
             return PeopleUseCase(repository)
 
 
-      @router.post("/people/add", response_model=PeopleResponseDTO)
+      @router.post("/people", response_model=PeopleResponseDTO)
       async def add_people(
             params: PeopleRequestDTO, use_case: PeopleUseCase = Depends(get_people_repository)
             ):
@@ -25,18 +25,18 @@ class peopleRouter:
             created_people = await use_case.add_people(people.name, people.group_id, people.sugestao_presente)
             return PeopleResponseDTO.from_core(created_people)
       
-      @router.get("/people/show", response_model=PeopleResponseDTO, responses={
+      @router.get("/people/{people_id}", response_model=PeopleResponseDTO, responses={
             404: {"description": "People not found"},
             401: {"description": "Unauthorized"},
       })
-      async def show_people(id: int, use_case: PeopleUseCase = Depends(get_people_repository)):
-            people = await use_case.show_people(id)
+      async def show_people(people_id: int, use_case: PeopleUseCase = Depends(get_people_repository)):
+            people = await use_case.show_people(people_id)
             if people is None:
                   raise HTTPException(status_code=404, detail="people not found")
             return PeopleResponseDTO.from_core(people)
 
       
-      @router.put("/people/update", response_model=PeopleResponseDTO)
+      @router.put("/people/{people_id}", response_model=PeopleResponseDTO)
       async def edit_people(
             people_id: int,
             params: PeopleRequestDTO, 
@@ -46,12 +46,12 @@ class peopleRouter:
             people = await use_case.edit_people(people_id, people_data.name, people_data.group_id, people_data.sugestao_presente)
             return PeopleResponseDTO.from_core(people)
 
-      @router.delete("/people/remove", responses={
+      @router.delete("/people/{people_id}", responses={
             404: {"description": "people with id {id} does not exist"},
             401: {"description": "Unauthorized"},
       })
-      async def remove_people(id: int, use_case: PeopleUseCase = Depends(get_people_repository)):
-            response = await use_case.remove_people(id)
+      async def remove_people(people_id: int, use_case: PeopleUseCase = Depends(get_people_repository)):
+            response = await use_case.remove_people(people_id)
             if response is None:
-                  raise HTTPException(status_code=404, detail=f"with id {id} does not exist")
+                  raise HTTPException(status_code=404, detail=f"with people_id {people_id} does not exist")
             return http.HTTPStatus.NO_CONTENT
