@@ -4,9 +4,9 @@ from sqlalchemy.future import select
 from sqlalchemy.exc import SQLAlchemyError, NoResultFound
 from unittest.mock import AsyncMock, MagicMock
 
-from app.adapters.data.orm.repositories.group_repository_orm import GroupRepositoryORM
+from app.adapters.output.data.orm.repositories.group_repository_orm import GroupRepositoryORM
 from app.domain.models.group import Group
-from adapters.data.orm.entities.orm_entities import Grupos
+from adapters.output.data.orm.entities.orm_entities import Grupos
 
 @pytest.fixture
 def mock_session():

@@ -1,6 +1,6 @@
 from typing import List
-from ..models.people import People
-from ..ports.people_repository import PeopleRepository
+from app.domain.models.people import People
+from app.domain.ports.people_repository import PeopleRepository
 
 
 class PeopleUseCase:

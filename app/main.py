@@ -8,15 +8,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.adapters.log.audit_logger import AuditLogger
 
 # SQLAlchemy imports
-from app.adapters.data.orm.config.db_config import engine
+from app.adapters.output.data.orm.config.db_config import engine
 
 # routes
-from app.adapters.api.v1.routes.group_route import groupRouter
-from app.adapters.api.v1.routes.people_route import peopleRouter
+from app.adapters.input.api.v1.routes.group_route import groupRouter
+from app.adapters.input.api.v1.routes.people_route import peopleRouter
 
 # config imports database
-from app.adapters.data.orm.config.base import Base
-from app.adapters.data.orm.config.db_config import POSTGRES_URL
+from app.adapters.output.data.orm.config.base import Base
+from app.adapters.output.data.orm.config.db_config import POSTGRES_URL
 
 
 load_dotenv()

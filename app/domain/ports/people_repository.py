@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from ..models.people import People
+from app.domain.models.people import People
 
 
 class PeopleRepository(ABC):

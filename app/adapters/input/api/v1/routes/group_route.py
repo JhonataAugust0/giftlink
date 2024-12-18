@@ -1,9 +1,9 @@
 import http
 from typing import Any, Dict, List
 from fastapi import APIRouter, Depends, HTTPException
-from .....domain.use_cases.group_use_case import GroupUseCase
-from ..dtos.group_dto import GroupRequestDTO, GroupResponseDTO, GroupResponseDrawDTO
-from .....adapters.data.orm.repositories.group_repository_orm import GroupRepositoryORM
+from app.domain.use_cases.group_use_case import GroupUseCase
+from app.adapters.input.api.v1.dtos.group_dto import GroupRequestDTO, GroupResponseDTO, GroupResponseDrawDTO
+from app.adapters.output.data.orm.repositories.group_repository_orm import GroupRepositoryORM
 
 
 class groupRouter:

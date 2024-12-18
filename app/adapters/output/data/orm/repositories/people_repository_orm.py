@@ -6,11 +6,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.adapters.log.audit_logger import AuditLogger
 from app.domain.models.people import People
 
-from .....domain.ports.people_repository import PeopleRepository
+from app.domain.ports.people_repository import PeopleRepository
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.exc import NoResultFound
-from ..config.db_config import get_async_session
-from ..entities.orm_entities import Grupos, Pessoa
+from app.adapters.output.data.orm.config.db_config import get_async_session
+from app.adapters.output.data.orm.entities.orm_entities import Grupos, Pessoa
 
 
 class PeopleRepositoryORM(PeopleRepository):

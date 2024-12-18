@@ -1,6 +1,6 @@
 from typing import List
-from ..models.group import Group
-from ..ports.group_repository import GroupRepository
+from app.domain.models.group import Group
+from app.domain.ports.group_repository import GroupRepository
 
 
 class GroupUseCase:

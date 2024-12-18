@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from ..models.group import Group
+from app.domain.models.group import Group
 
 
 class GroupRepository(ABC):

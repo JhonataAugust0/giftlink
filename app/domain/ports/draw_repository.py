@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..models.draw import Draw
+from app.domain.models.draw import Draw
 
 
 class DrawRepository(ABC):

@@ -4,8 +4,8 @@ from sqlalchemy import select
 from app.domain.ports.draw_repository import DrawRepository
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.adapters.log.audit_logger import AuditLogger
-from ..config.db_config import get_async_session
-from ..entities.orm_entities import Sorteio
+from app.adapters.output.data.orm.config.db_config import get_async_session
+from app.adapters.output.data.orm.entities.orm_entities import Sorteio
 
 class DrawRepositoryORM(DrawRepository):
     def __init__(self, session: Optional[AsyncSession] = None):

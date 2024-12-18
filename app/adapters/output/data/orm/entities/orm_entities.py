@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Float, Boolean, Integer, ForeignKey, Text
-from ..config.base import Base
+from app.adapters.output.data.orm.config.base import Base
 from typing import List, Optional
 
 

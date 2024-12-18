@@ -4,12 +4,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.log.audit_logger import AuditLogger
 
-from .....domain.models.group import Group
-from .....domain.ports.group_repository import GroupRepository
+from app.domain.models.group import Group
+from app.domain.ports.group_repository import GroupRepository
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.exc import NoResultFound
-from ..config.db_config import get_async_session
-from ..entities.orm_entities import Grupos, Pessoa
+from app.adapters.output.data.orm.config.db_config import get_async_session
+from app.adapters.output.data.orm.entities.orm_entities import Grupos, Pessoa
 
 
 class GroupRepositoryORM(GroupRepository):

@@ -1,11 +1,11 @@
 from typing import List
 from pydantic import BaseModel, Field
 
-from app.adapters.api.v1.dtos.people_dto import PeopleResponseDTO
+from app.adapters.input.api.v1.dtos.people_dto import PeopleResponseDTO
 from app.domain.models.people import People
 
-from ....data.orm.entities.orm_entities import Grupos
-from .....domain.models.group import Group
+from app.adapters.output.data.orm.entities.orm_entities import Grupos
+from app.domain.models.group import Group
 
 class GroupResponseDTO(BaseModel):
     id:             int

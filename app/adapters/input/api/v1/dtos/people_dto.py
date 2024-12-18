@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
-from ....data.orm.entities.orm_entities import Pessoa
-from .....domain.models.people import People
+from app.adapters.output.data.orm.entities.orm_entities import Pessoa
+from app.domain.models.people import People
 
 class PeopleResponseDTO(BaseModel):
     id:                 int 
