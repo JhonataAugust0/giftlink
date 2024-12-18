@@ -2,7 +2,7 @@ import http
 from typing import Any, Dict, List
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.adapters.log.audit_logger import AuditLogger
+from app.adapters.output.log.audit_logger import AuditLogger
 from app.domain.use_cases.people_use_case import PeopleUseCase
 from app.adapters.input.api.v1.dtos.people_dto import PeopleRequestDTO, PeopleResponseDTO
 from app.adapters.output.data.orm.repositories.people_repository_orm import PeopleRepositoryORM

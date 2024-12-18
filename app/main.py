@@ -5,19 +5,17 @@ from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 # Log tool
-from app.adapters.log.audit_logger import AuditLogger
+from app.adapters.output.log.audit_logger import AuditLogger
 
 # SQLAlchemy imports
-from app.adapters.output.data.orm.config.db_config import engine
+from app.infrastructure.orm.config.db_config import engine
 
 # routes
 from app.adapters.input.api.v1.routes.group_route import groupRouter
 from app.adapters.input.api.v1.routes.people_route import peopleRouter
 
 # config imports database
-from app.adapters.output.data.orm.config.base import Base
-from app.adapters.output.data.orm.config.db_config import POSTGRES_URL
-
+from app.infrastructure.orm.config.base import Base
 
 load_dotenv()
 audit_logger = AuditLogger()

@@ -3,8 +3,8 @@ from typing import Optional
 from sqlalchemy import select
 from app.domain.ports.draw_repository import DrawRepository
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.adapters.log.audit_logger import AuditLogger
-from app.adapters.output.data.orm.config.db_config import get_async_session
+from app.adapters.output.log.audit_logger import AuditLogger
+from app.infrastructure.orm.config.db_config import get_async_session
 from app.adapters.output.data.orm.entities.orm_entities import Sorteio
 
 class DrawRepositoryORM(DrawRepository):

@@ -2,11 +2,12 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 from config.base import Base
-from config.db_config import POSTGRES_URL
+from app.infrastructure.envs.config import Settings
 from sqlalchemy.pool import AsyncAdaptedQueuePool
 
 # Configuração do Alembic
 config = context.config
+envs = Settings()
 
 # Interpretar arquivo de configuração do logging
 if config.config_file_name is not None:
@@ -16,7 +17,7 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 # Configurações de migração
-config.set_main_option('sqlalchemy.url', POSTGRES_URL)
+config.set_main_option('sqlalchemy.url', envs.POSTGRES_URL)
 
 def run_migrations_offline() -> None:
     """Executar migrações offline"""
